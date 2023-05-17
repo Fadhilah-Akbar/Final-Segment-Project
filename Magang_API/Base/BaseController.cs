@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -6,6 +7,7 @@ namespace Magang_API.Base
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public abstract class BaseController<TEntity,TIRepository,TKey> : ControllerBase
     where TEntity : class
     where TIRepository : IBaseRepository<TEntity,TKey>
