@@ -11,9 +11,6 @@ public partial class Account
     public string? Password { get; set; }
 
     [JsonIgnore]
-    public virtual Student Account1 { get; set; } = null!;
-
-    [JsonIgnore]
     public virtual Employee AccountNavigation { get; set; } = null!;
 
     [JsonIgnore]

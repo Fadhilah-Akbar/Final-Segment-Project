@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Magang_API.ViewModels
 {
-    public class RegisterVM
+    public class RegisterStudentVM
     {
         // NIK
         public string Id { get; set; }
@@ -40,6 +40,12 @@ namespace Magang_API.ViewModels
         // GPA
         [Range(0, 4, ErrorMessage = "The {0} Tidak boleh kurang {1} dan lebih dari {2}")]
         public Decimal GPA { get; set; }
+
+        [Display(Name = "Tanggal Mulai")]
+        public DateTime StartDate { get; set; }
+
+        [Display(Name = "Tanggal Selesai")]
+        public DateTime EndDate { get; set; }
 
         // University Name
         [Display(Name = "University Name")]

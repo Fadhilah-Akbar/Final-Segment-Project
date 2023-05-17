@@ -16,7 +16,7 @@ namespace Magang_API.Repository.Data
             var employee = await _context.Employees.FirstOrDefaultAsync(e => e.Email == email);
             return new UserDataVM
             {
-                Nik = employee!.Nik,
+                Nik = employee!.Id,
                 Email = employee.Email,
                 FullName = string.Concat(employee.FirstName, " ", employee.LastName)
             };

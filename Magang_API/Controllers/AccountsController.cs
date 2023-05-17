@@ -90,12 +90,43 @@ namespace Magang_API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("register")]
-        public async Task<IActionResult> RegisterAsync(RegisterVM registerVM)
+        [HttpPost("RegisterEmployee")]
+        public async Task<IActionResult> RegisterEmployeeAsync(RegisterVM registerVM)
         {
             try
             {
                 await _repository.RegisterAsync(registerVM);
+                return Ok(new
+                {
+                    code = StatusCodes.Status200OK,
+                    status = HttpStatusCode.OK.ToString(),
+                    data = new
+                    {
+                        Message = "Data Has Successfully Saved",
+                    }
+                });
+            }
+            catch
+            {
+                return NotFound(new
+                {
+                    code = StatusCodes.Status400BadRequest,
+                    status = HttpStatusCode.BadRequest.ToString(),
+                    data = new
+                    {
+                        message = "Server Cannot Process Request"
+                    }
+                });
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost("RegisterStudent")]
+        public async Task<IActionResult> RegisterStudentAsync(RegisterStudentVM registerStudentVM)
+        {
+            try
+            {
+                await _repository.RegisterStudentAsync(registerStudentVM);
                 return Ok(new
                 {
                     code = StatusCodes.Status200OK,

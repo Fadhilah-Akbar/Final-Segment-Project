@@ -1,38 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace Magang_API.Models;
 
 public partial class Student
 {
-    public string Nim { get; set; } = null!;
+    public int Id { get; set; }
 
-    public string FirstName { get; set; } = null!;
+    public string Status { get; set; } = null!;
 
-    public string? LastName { get; set; }
+    public DateTime? StartDate { get; set; }
 
-    public DateTime BirthDate { get; set; }
-
-    public bool? IsApproval { get; set; }
+    public DateTime? EndDate { get; set; }
 
     public string? MentorId { get; set; }
 
     public int? Score { get; set; }
 
-    public string Email { get; set; } = null!;
+    public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
 
-    public string? PhoneNumber { get; set; }
-
-    [JsonIgnore]
-    public virtual Account? Account { get; set; }
-
-    [JsonIgnore]
     public virtual Employee? Mentor { get; set; }
-
-    [JsonIgnore]
-    public virtual Profiling? Profiling { get; set; }
-
-    [JsonIgnore]
-    public virtual Status? Status { get; set; }
 }

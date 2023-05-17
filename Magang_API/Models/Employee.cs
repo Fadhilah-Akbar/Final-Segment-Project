@@ -6,7 +6,7 @@ namespace Magang_API.Models;
 
 public partial class Employee
 {
-    public string Nik { get; set; } = null!;
+    public string Id { get; set; } = null!;
 
     public string FirstName { get; set; } = null!;
 
@@ -16,13 +16,15 @@ public partial class Employee
 
     public DateTime HiringDate { get; set; }
 
-    public Gender Gender { get; set; }
+    public int Gender { get; set; }
 
     public string Email { get; set; } = null!;
 
     public string? PhoneNumber { get; set; }
 
     public int? DepartmentId { get; set; }
+
+    public int? StudentId { get; set; }
 
     [JsonIgnore]
     public virtual Account? Account { get; set; }
@@ -34,10 +36,13 @@ public partial class Employee
     public virtual Profiling? Profiling { get; set; }
 
     [JsonIgnore]
+    public virtual Student? Student { get; set; }
+
+    [JsonIgnore]
     public virtual ICollection<Student> Students { get; set; } = new List<Student>();
 }
 
 public enum Gender
 {
-    Male, Female
+    Male,Female
 }

@@ -7,6 +7,7 @@ namespace Magang_API.Repository.Contracts
     public interface IAccountRepository : IBaseRepository<Account, string>
     {
         Task RegisterAsync(RegisterVM registerVM);
+        Task RegisterStudentAsync(RegisterStudentVM registerStudentVM);
         Task<bool> LoginAsync(LoginVM loginVM);
     }
 }

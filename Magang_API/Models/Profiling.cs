@@ -14,8 +14,5 @@ public partial class Profiling
     public virtual Education Education { get; set; } = null!;
 
     [JsonIgnore]
-    public virtual Student Profiling1 { get; set; } = null!;
-
-    [JsonIgnore]
     public virtual Employee ProfilingNavigation { get; set; } = null!;
 }

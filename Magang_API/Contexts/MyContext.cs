@@ -30,8 +30,6 @@ public partial class MyContext : DbContext
 
     public virtual DbSet<Role> Roles { get; set; }
 
-    public virtual DbSet<Status> Statuses { get; set; }
-
     public virtual DbSet<Student> Students { get; set; }
 
     public virtual DbSet<University> Universities { get; set; }
@@ -43,7 +41,7 @@ public partial class MyContext : DbContext
     {
         modelBuilder.Entity<Account>(entity =>
         {
-            entity.HasKey(e => e.AccountId).HasName("PK__account__46A222CDFBE72DB7");
+            entity.HasKey(e => e.AccountId).HasName("PK__account__46A222CD8A1F986C");
 
             entity.ToTable("account");
 
@@ -60,17 +58,12 @@ public partial class MyContext : DbContext
             entity.HasOne(d => d.AccountNavigation).WithOne(p => p.Account)
                 .HasForeignKey<Account>(d => d.AccountId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__account__account__3D5E1FD2");
-
-            entity.HasOne(d => d.Account1).WithOne(p => p.Account)
-                .HasForeignKey<Account>(d => d.AccountId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__account__account__3E52440B");
+                .HasConstraintName("FK__account__account__38996AB5");
         });
 
         modelBuilder.Entity<AccountRole>(entity =>
         {
-            entity.HasKey(e => e.AccountId).HasName("PK__account___46A222CD04A997F4");
+            entity.HasKey(e => e.AccountId).HasName("PK__account___46A222CD8C007438");
 
             entity.ToTable("account_role");
 
@@ -84,29 +77,29 @@ public partial class MyContext : DbContext
             entity.HasOne(d => d.Account).WithOne(p => p.AccountRole)
                 .HasForeignKey<AccountRole>(d => d.AccountId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__account_r__accou__412EB0B6");
+                .HasConstraintName("FK__account_r__accou__3B75D760");
 
             entity.HasOne(d => d.Role).WithMany(p => p.AccountRoles)
                 .HasForeignKey(d => d.RoleId)
-                .HasConstraintName("FK__account_r__role___4222D4EF");
+                .HasConstraintName("FK__account_r__role___3C69FB99");
         });
 
         modelBuilder.Entity<Department>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__departme__3213E83F8D029D66");
+            entity.HasKey(e => e.Id).HasName("PK__departme__3213E83F1385F803");
 
             entity.ToTable("department");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Name)
-                .HasMaxLength(20)
+                .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("name");
         });
 
         modelBuilder.Entity<Education>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__educatio__3213E83FB8603583");
+            entity.HasKey(e => e.Id).HasName("PK__educatio__3213E83FECEBAA73");
 
             entity.ToTable("education");
 
@@ -116,8 +109,7 @@ public partial class MyContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("degree");
             entity.Property(e => e.Gpa)
-                .HasMaxLength(5)
-                .IsUnicode(false)
+                .HasColumnType("decimal(3, 2)")
                 .HasColumnName("gpa");
             entity.Property(e => e.Major)
                 .HasMaxLength(50)
@@ -132,23 +124,23 @@ public partial class MyContext : DbContext
 
         modelBuilder.Entity<Employee>(entity =>
         {
-            entity.HasKey(e => e.Nik).HasName("PK__employee__DF97D0ECEB0582A7");
+            entity.HasKey(e => e.Id).HasName("PK__employee__3213E83FF58F62A3");
 
             entity.ToTable("employee");
 
-            entity.HasIndex(e => new { e.Email, e.PhoneNumber }, "UQ__employee__117757C28ED240A9").IsUnique();
+            entity.HasIndex(e => new { e.Email, e.PhoneNumber }, "UQ__employee__117757C29447074B").IsUnique();
 
-            entity.Property(e => e.Nik)
+            entity.Property(e => e.Id)
                 .HasMaxLength(6)
                 .IsUnicode(false)
                 .IsFixedLength()
-                .HasColumnName("nik");
+                .HasColumnName("id");
             entity.Property(e => e.BirthDate)
                 .HasColumnType("date")
                 .HasColumnName("birth_date");
             entity.Property(e => e.DepartmentId).HasColumnName("department_id");
             entity.Property(e => e.Email)
-                .HasMaxLength(50)
+                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("email");
             entity.Property(e => e.FirstName)
@@ -167,15 +159,20 @@ public partial class MyContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasColumnName("phone_number");
+            entity.Property(e => e.StudentId).HasColumnName("student_id");
 
             entity.HasOne(d => d.Department).WithMany(p => p.Employees)
                 .HasForeignKey(d => d.DepartmentId)
                 .HasConstraintName("FK__employee__depart__2E1BDC42");
+
+            entity.HasOne(d => d.Student).WithMany(p => p.Employees)
+                .HasForeignKey(d => d.StudentId)
+                .HasConstraintName("FK__employee__studen__31EC6D26");
         });
 
         modelBuilder.Entity<Profiling>(entity =>
         {
-            entity.HasKey(e => e.ProfilingId).HasName("PK__profilin__BBAD950F5D2CCC16");
+            entity.HasKey(e => e.ProfilingId).HasName("PK__profilin__BBAD950FBB919E64");
 
             entity.ToTable("profiling");
 
@@ -195,16 +192,11 @@ public partial class MyContext : DbContext
                 .HasForeignKey<Profiling>(d => d.ProfilingId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__profiling__profi__35BCFE0A");
-
-            entity.HasOne(d => d.Profiling1).WithOne(p => p.Profiling)
-                .HasForeignKey<Profiling>(d => d.ProfilingId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__profiling__profi__36B12243");
         });
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__role__3213E83F059EA5FC");
+            entity.HasKey(e => e.Id).HasName("PK__role__3213E83F139F2E55");
 
             entity.ToTable("role");
 
@@ -215,90 +207,44 @@ public partial class MyContext : DbContext
                 .HasColumnName("name");
         });
 
-        modelBuilder.Entity<Status>(entity =>
-        {
-            entity.HasKey(e => e.StudentId).HasName("PK__status__2A33069A287B1F85");
-
-            entity.ToTable("status");
-
-            entity.Property(e => e.StudentId)
-                .HasMaxLength(6)
-                .IsUnicode(false)
-                .IsFixedLength()
-                .HasColumnName("student_id");
-            entity.Property(e => e.DepartmentId).HasColumnName("department_id");
-            entity.Property(e => e.EndDate)
-                .HasColumnType("datetime")
-                .HasColumnName("end_date");
-            entity.Property(e => e.StartDate)
-                .HasColumnType("datetime")
-                .HasColumnName("start_date");
-            entity.Property(e => e.Status1).HasColumnName("status");
-
-            entity.HasOne(d => d.Department).WithMany(p => p.Statuses)
-                .HasForeignKey(d => d.DepartmentId)
-                .HasConstraintName("FK__status__departme__3A81B327");
-
-            entity.HasOne(d => d.Student).WithOne(p => p.Status)
-                .HasForeignKey<Status>(d => d.StudentId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__status__student___398D8EEE");
-        });
-
         modelBuilder.Entity<Student>(entity =>
         {
-            entity.HasKey(e => e.Nim).HasName("PK__student__DF97D0EA1AA4032B");
+            entity.HasKey(e => e.Id).HasName("PK__student__3213E83FE4D3EF44");
 
             entity.ToTable("student");
 
-            entity.HasIndex(e => new { e.Email, e.PhoneNumber }, "UQ__student__117757C2471FAC44").IsUnique();
-
-            entity.Property(e => e.Nim)
-                .HasMaxLength(6)
-                .IsUnicode(false)
-                .IsFixedLength()
-                .HasColumnName("nim");
-            entity.Property(e => e.BirthDate)
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.EndDate)
                 .HasColumnType("date")
-                .HasColumnName("birth_date");
-            entity.Property(e => e.Email)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("email");
-            entity.Property(e => e.FirstName)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("first_name");
-            entity.Property(e => e.IsApproval).HasColumnName("is_approval");
-            entity.Property(e => e.LastName)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("last_name");
+                .HasColumnName("end_date");
             entity.Property(e => e.MentorId)
                 .HasMaxLength(6)
                 .IsUnicode(false)
                 .IsFixedLength()
                 .HasColumnName("mentor_id");
-            entity.Property(e => e.PhoneNumber)
-                .HasMaxLength(20)
-                .IsUnicode(false)
-                .HasColumnName("phone_number");
             entity.Property(e => e.Score).HasColumnName("score");
+            entity.Property(e => e.StartDate)
+                .HasColumnType("date")
+                .HasColumnName("start_date");
+            entity.Property(e => e.Status)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("status");
 
             entity.HasOne(d => d.Mentor).WithMany(p => p.Students)
                 .HasForeignKey(d => d.MentorId)
-                .HasConstraintName("FK__student__mentor___31EC6D26");
+                .HasConstraintName("FK__student__mentor___30F848ED");
         });
 
         modelBuilder.Entity<University>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__universi__3213E83F403731B2");
+            entity.HasKey(e => e.Id).HasName("PK__universi__3213E83FA041ADDB");
 
             entity.ToTable("university");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Name)
-                .HasMaxLength(20)
+                .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("name");
         });

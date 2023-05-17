@@ -12,7 +12,4 @@ public partial class Department
 
     [JsonIgnore]
     public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
-
-    [JsonIgnore]
-    public virtual ICollection<Status> Statuses { get; set; } = new List<Status>();
 }
